@@ -10,13 +10,13 @@ const routes = [
     component: 中_译英, // 设置为首页的默认组件
   },
   {
-    path: '/translate-to-english',
-    name: 'TranslateToEnglish',
+    path: '/translate-chinese',
+    name: '中_译英',
     component: 中_译英,
   },
   {
-    path: '/translate-to-chinese',
-    name: 'TranslateToChinese',
+    path: '/translate-english',
+    name: '英_译中',
     component: 英_译中,
   },
   {

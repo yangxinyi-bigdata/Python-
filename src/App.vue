@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <div class="sidebar">
-      <router-link to="/translate-to-english">
+      <router-link to="/translate-chinese">
         <button>中译英</button>
       </router-link>
-      <router-link to="/translate-to-chinese">
+      <router-link to="/translate-english">
         <button>英译中</button>
       </router-link>
       <router-link to="/code-explanation">
@@ -13,7 +13,7 @@
     </div>
 
     <div class="main">
-      <!-- This is where the routed components will be displayed -->
+      <!-- 这里将显示路由组件 -->
       <router-view></router-view>
     </div>
   </div>
@@ -37,11 +37,16 @@ export default {
 }
 
 .sidebar button {
-  display: block;
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   font-size: 16px;
+}
+
+/* 当路由处于活动状态时，高亮显示按钮 */
+.sidebar .router-link-exact-active button {
+  background-color: #80a8b623;
+  font:bolder;
 }
 
 .main {

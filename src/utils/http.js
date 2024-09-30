@@ -33,9 +33,10 @@ import qs from "qs";
 class Http {
 	constructor() {
 		if(process.env.NODE_ENV == 'production'){
-			this.server_host = window.location.origin;
+			// this.server_host = window.location.origin;
+			this.server_host = "http://127.0.0.1:5002"
 		}else{
-			this.server_host = "http://127.0.0.1:5001"
+			this.server_host = "http://127.0.0.1:5002"
 		}
 		this.http = axios.create({
 			baseURL: this.server_host,
@@ -59,9 +60,29 @@ class Http {
 		return this.http.post(url, qs.stringify(data));
 	}
 
-	开始翻译(data){
-		const url = "/开始翻译"
+	开始翻译_中文项目(data){
+		const url = "/开始翻译_中文项目"
 		return this._post(url, data);
+	}
+
+	开始翻译_英文项目(data){
+		const url = "/开始翻译_英文项目"
+		return this._post(url, data);
+	}
+
+	停止翻译_英文项目(){
+		const url = "/停止翻译_英文项目"
+		return this.http.get(url)
+	}
+
+	获取进度(){
+		const url = "/获取进度"
+		return this.http.get(url)
+	}
+
+	获取状态信息(){
+		const url = "/获取状态信息"
+		return this.http.get(url)
 	}
 
 	getBannerList(data){
