@@ -1,13 +1,24 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 const { exec } = require('child_process');
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const path = require('path')
+const fs = require('fs')
 
 let flaskProcess;
+
+function writeFile(event, data) {
+  fs.writeFileSync("/Users/yangxinyi/Downloads/201_临时文件夹/hello.txt", data)
+}
+
+function readFile(event) {
+  const res = fs.readFileSync("/Users/yangxinyi/Downloads/201_临时文件夹/hello.txt", "utf8")
+  console.log("$$$", res)
+  return fs.readFileSync("/Users/yangxinyi/Downloads/201_临时文件夹/hello.txt", "utf8")
+}
 
 // 检查应用是否在打包后的生产模式下运行
 const isPackaged = require('electron').app.isPackaged;
@@ -19,11 +30,20 @@ protocol.registerSchemesAsPrivileged([
 
 async function createWindow() {
   // Create the browser window.
+  // 创建浏览器窗口
+  console.log("__dirname:" + __dirname);
+  // 动态设置 preload 脚本路径
+  const preloadPath = isPackaged 
+    ? path.join(process.resourcesPath, 'preload.js')  // 生产环境
+    : path.resolve(__dirname, 'preload.js');        // 开发环境
+
+  console.log("Preload script path:", preloadPath);
   const win = new BrowserWindow({
     width: 1200,
     height: 600,
     webPreferences: {
       
+      preload: preloadPath,
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
@@ -31,8 +51,12 @@ async function createWindow() {
     }
   })
 
+  ipcMain.on("file-save", writeFile)
+  ipcMain.handle("file-read", readFile)
+
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // 开发模式下加载开发服务器的 URL
+    
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {

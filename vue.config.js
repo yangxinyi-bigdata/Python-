@@ -3,6 +3,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   pluginOptions: {
     electronBuilder: {
+      preload: 'preload.js',
       builderOptions: {
         // 配置 Electron Builder 选项
         extraResources: [
@@ -22,5 +23,17 @@ module.exports = defineConfig({
         // ]
       }
     }
+  }, 
+  css: {
+    loaderOptions: {
+      postcss: {
+        postcssOptions: {
+          plugins: [
+            require('tailwindcss'),
+            require('autoprefixer'),
+          ],
+        },
+      },
+    },
   }
 })

@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <div class="sidebar">
+      <router-link to="/test-translate-chinese">
+        <button>测试</button>
+      </router-link>
       <router-link to="/translate-chinese">
         <button>中译英</button>
       </router-link>

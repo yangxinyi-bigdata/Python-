@@ -5,6 +5,7 @@ import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import router from './router';
 import http from "@/utils/http"
+import './tailwind.css'  // 使用新创建的 tailwind.css 文件
 
 const app = createApp(App);
 app.use(ElementPlus)

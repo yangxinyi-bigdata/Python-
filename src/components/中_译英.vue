@@ -35,6 +35,7 @@
   <div style="max-width: 600px; padding-top:18px"  >
     <el-alert :title="'执行进程: ' + 状态信息" type="success" />
   </div>
+
 </template>
 
 <script>
@@ -74,9 +75,11 @@ export default {
       .catch((resp) => {
         ElMessage.error("error: " + resp["message"]);
         })
-    },
+    }
   },
 };
+
+
 </script>
 
 <style scoped>
