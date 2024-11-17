@@ -10,6 +10,8 @@ contextBridge.exposeInMainWorld("myAPI", {
     }, 
     readFile() {
         return ipcRenderer.invoke("file-read")
-    }
+    }, 
+    openDirectory: () => ipcRenderer.invoke('open-directory-dialog'), 
+    openFile: () => ipcRenderer.invoke('open-file-dialog')
 
 })

@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, ipcMain } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 const { exec } = require('child_process');
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
@@ -19,6 +19,20 @@ function readFile(event) {
   console.log("$$$", res)
   return fs.readFileSync("/Users/yangxinyi/Downloads/201_临时文件夹/hello.txt", "utf8")
 }
+
+ipcMain.handle('open-directory-dialog', async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ['openDirectory']
+  })
+  return result
+})
+
+ipcMain.handle('open-file-dialog', async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ['openFile']
+  })
+  return result
+})
 
 // 检查应用是否在打包后的生产模式下运行
 const isPackaged = require('electron').app.isPackaged;
@@ -73,24 +87,24 @@ async function createWindow() {
     ? path.join(process.resourcesPath, 'app/app')  // 生产环境：使用资源路径
     : path.join(__dirname, '../app/app');          // 开发环境：直接定位到文件
 
-console.log("Flask app path:", flaskAppPath);
+// console.log("Flask app path:", flaskAppPath);
 
-  flaskProcess = exec(flaskAppPath, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`启动 Flask 后端时出错：${error}`);
-      return;
-    }
-    console.log(`Flask 后端输出：${stdout}`);
-  });
+//   flaskProcess = exec(flaskAppPath, (error, stdout, stderr) => {
+//     if (error) {
+//       console.error(`启动 Flask 后端时出错：${error}`);
+//       return;
+//     }
+//     console.log(`Flask 后端输出：${stdout}`);
+//   });
 
-  // 监听 Flask 后端的输出（可选）
-  flaskProcess.stdout.on('data', (data) => {
-    console.log(`Flask 输出：${data}`);
-  });
+//   // 监听 Flask 后端的输出（可选）
+//   flaskProcess.stdout.on('data', (data) => {
+//     console.log(`Flask 输出：${data}`);
+//   });
 
-  flaskProcess.stderr.on('data', (data) => {
-    console.error(`Flask 错误：${data}`);
-  });
+//   flaskProcess.stderr.on('data', (data) => {
+//     console.error(`Flask 错误：${data}`);
+//   });
   
 }
 

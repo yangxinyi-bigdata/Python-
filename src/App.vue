@@ -1,22 +1,28 @@
 <template>
-  <div class="container">
-    <div class="sidebar">
-      <router-link to="/test-translate-chinese">
-        <button>测试</button>
-      </router-link>
-      <router-link to="/translate-chinese">
-        <button>中译英</button>
-      </router-link>
-      <router-link to="/translate-english">
-        <button>英译中</button>
-      </router-link>
-      <router-link to="/code-explanation">
-        <button>代码解释</button>
+  <div class="flex">
+    <div class="w-1/5 border-r border-gray-200 p-4 space-y-4">
+      <router-link 
+        v-for="(route, index) in routes" 
+        :key="index"
+        :to="route.path" 
+        custom 
+        v-slot="{ navigate, isActive }"
+      >
+        <button 
+          @click="navigate" 
+          :class="[
+            'w-full py-2 px-4 rounded-lg transition-colors duration-200',
+            isActive 
+              ? 'bg-blue-500 text-white hover:bg-blue-600' 
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          ]"
+        >
+          {{ route.name }}
+        </button>
       </router-link>
     </div>
 
-    <div class="main">
-      <!-- 这里将显示路由组件 -->
+    <div class="w-4/5 p-4">
       <router-view></router-view>
     </div>
   </div>
@@ -25,35 +31,16 @@
 <script>
 export default {
   name: "App",
+  data() {
+    return {
+      routes: [
+        { path: '/translate-chinese-v2', name: '中译英V2' },
+        { path: '/translate-english-v2', name: '英译中V2' },
+        { path: '/translate-chinese', name: '中译英' },
+        { path: '/translate-english', name: '英译中' },
+        { path: '/code-explanation', name: '代码解释' },
+      ]
+    }
+  }
 };
 </script>
-
-<style scoped>
-.container {
-  display: flex;
-}
-
-.sidebar {
-  width: 20%;
-  border-right: 1px solid #ccc;
-  padding: 20px;
-}
-
-.sidebar button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  font-size: 16px;
-}
-
-/* 当路由处于活动状态时，高亮显示按钮 */
-.sidebar .router-link-exact-active button {
-  background-color: #80a8b623;
-  font:bolder;
-}
-
-.main {
-  width: 80%;
-  padding: 20px;
-}
-</style>

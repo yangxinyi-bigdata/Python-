@@ -34,25 +34,23 @@ class Http {
 	constructor() {
 		if(process.env.NODE_ENV == 'production'){
 			// this.server_host = window.location.origin;
-			this.server_host = "http://127.0.0.1:5002"
+			this.server_host = "http:/localhost:5124"
 		}else{
-			this.server_host = "http://127.0.0.1:5002"
+			this.server_host = "http://localhost:5124"
 		}
 		this.http = axios.create({
 			baseURL: this.server_host,
-			timeout: 1000*60
-		});
-
+			timeout: 1000*60, 
+		})
 
 		// 响应拦截
 		// this.http.interceptors.response.use(response => {
 		// 	return response.data;
 		// })
 
-		this.http.interceptors.response.use(resonse => {
-			return resonse.data
-		})
-
+		this.http.interceptors.response.use(response => {
+            return response.data
+        })
 
 	}
 
@@ -60,88 +58,52 @@ class Http {
 		return this.http.post(url, qs.stringify(data));
 	}
 
-	开始翻译_中文项目(data){
-		const url = "/开始翻译_中文项目"
+	开始翻译_中文项目 = (data) => {
+        const url = "/开始翻译_中文项目"
+        return this._post(url, data);
+    }
+
+	开始翻译_中文原项目 = (data) => {
+		const url = "/开始翻译_中文原项目"
 		return this._post(url, data);
 	}
 
-	开始翻译_英文项目(data){
+	开始翻译_中文py文件 = (data) => {
+		const url = "/开始翻译_中文py文件"
+		return this._post(url, data);
+	}
+
+	开始翻译_英文项目 = (data) => {
 		const url = "/开始翻译_英文项目"
 		return this._post(url, data);
 	}
 
-	停止翻译_英文项目(){
+	开始翻译_英文文件 = (data) => {
+		const url = "/开始翻译_英文文件"
+		return this._post(url, data);
+	}
+
+	停止翻译_英文项目 = () => {
 		const url = "/停止翻译_英文项目"
 		return this.http.get(url)
 	}
 
-	获取进度(){
+	停止翻译_中文项目 = () => {
+		const url = "/停止翻译_中文项目"
+		return this.http.get(url)
+	}
+
+	获取进度 = () => {
 		const url = "/获取进度"
 		return this.http.get(url)
 	}
 
-	获取状态信息(){
+	获取状态信息 = () => {
 		const url = "/获取状态信息"
 		return this.http.get(url)
 	}
 
-	getBannerList(data){
-		const url = "/banner/list"
-		return this.http.get(url, data);
-	}
 
-	deleteBanner(banner_id){
-		const url = "/banner/delete"
-		return this._post(url, {"id": banner_id})
-	}
-
-	editBanner(data){
-		const url = "/banner/edit"
-		return this._post(url, data);
-	}
-
-	getPostList(page){
-		const url = "/post/list?page=" + (page?page:1)
-		console.log(url);
-		return this.http.get(url);
-	}
-
-	deletePost(post_id){
-		const url = "/post/delete"
-		return this._post(url, {"id": post_id})
-	}
-
-	deleteComment(comment_id){
-		const url = "/comment/delete"
-		return this._post(url, {"comment_id": comment_id})
-	}
-
-	getCommentList(page){
-		const url = "/comment/list?page=" + (page?page:1)
-		return this.http.get(url);
-	}
-
-	getUserList(page){
-		const url = "/user/list?page=" + (page?page:1)
-		return this.http.get(url);
-	}
-
-	activeUser(user_id, is_active){
-		const url = "/user/active"
-		return this._post(url, {"user_id": user_id, "is_active": is_active})
-	}
-
-	getBoardPostCount(){
-		const url = "/board/post/count"
-		return this.http.get(url);
-	}
-
-	getDay7PostCount(){
-		const url = "/day7/post/count"
-		return this.http.get(url)
-	}
-
-	
 
 }
 
